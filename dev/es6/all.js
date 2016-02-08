@@ -6,11 +6,11 @@ var FV = FV || Object.create(null);
 FV.Constraint = (function() {
 
 	const 	UPPERREGEX = 	/[A-Z]/g,
-		LOWERREGEX = 	/[a-z]/g,
-		NUMBERREGEX =	/\d/g,
-		SPECIALREGEX =	/[\!\@\#\$\%\^\&\*]/g,
-		URLREGEX =		/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-		EMAILREGEX =	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			LOWERREGEX = 	/[a-z]/g,
+			NUMBERREGEX =	/\d/g,
+			SPECIALREGEX =	/[\!\@\#\$\%\^\&\*]/g,
+			URLREGEX =		/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+			EMAILREGEX =	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	/**
 	 * Holds a single constraint, error message, and helpful properties
@@ -120,16 +120,18 @@ var FV = FV || Object.create(null);
  */
 FV.Validator = (function() {
 
-	const 	REQUIRED = 			Symbol(),
-			MINLENGTH = 		Symbol(),
-			MAXLENGTH = 		Symbol(),
-			CONTAINSUPPER =		Symbol(),
-			CONTAINSLOWER =		Symbol(),
-			CONTAINSSPECIAL =	Symbol(),
-			REGEX =				Symbol(),
-			ISEMAIL =			Symbol(),
-			ISURL =				Symbol(),
-			EQUALSFIELD =		Symbol();
+	let d = new Date();
+
+	const 	REQUIRED = 			d.toISOString(),
+			MINLENGTH = 		d.toISOString(),
+			MAXLENGTH = 		d.toISOString(),
+			CONTAINSUPPER =		d.toISOString(),
+			CONTAINSLOWER =		d.toISOString(),
+			CONTAINSSPECIAL =	d.toISOString(),
+			REGEX =				d.toISOString(),
+			ISEMAIL =			d.toISOString(),
+			ISURL =				d.toISOString(),
+			EQUALSFIELD =		d.toISOString();
 
 	/**
 	 *Validates your entire form
@@ -405,7 +407,7 @@ FV.Validator = (function() {
 
 			});
 
-			return errormessage;
+			return errorMessages;
 
 		}
 

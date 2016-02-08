@@ -6,16 +6,18 @@ var FV = FV || Object.create(null);
  */
 FV.Validator = (function() {
 
-	const 	REQUIRED = 			Symbol(),
-			MINLENGTH = 		Symbol(),
-			MAXLENGTH = 		Symbol(),
-			CONTAINSUPPER =		Symbol(),
-			CONTAINSLOWER =		Symbol(),
-			CONTAINSSPECIAL =	Symbol(),
-			REGEX =				Symbol(),
-			ISEMAIL =			Symbol(),
-			ISURL =				Symbol(),
-			EQUALSFIELD =		Symbol();
+	let d = new Date();
+
+	const 	REQUIRED = 			d.toISOString(),
+			MINLENGTH = 		d.toISOString(),
+			MAXLENGTH = 		d.toISOString(),
+			CONTAINSUPPER =		d.toISOString(),
+			CONTAINSLOWER =		d.toISOString(),
+			CONTAINSSPECIAL =	d.toISOString(),
+			REGEX =				d.toISOString(),
+			ISEMAIL =			d.toISOString(),
+			ISURL =				d.toISOString(),
+			EQUALSFIELD =		d.toISOString();
 
 	/**
 	 *Validates your entire form
@@ -291,7 +293,7 @@ FV.Validator = (function() {
 
 			});
 
-			return errormessage;
+			return errorMessages;
 
 		}
 

@@ -6,11 +6,11 @@ var FV = FV || Object.create(null);
 FV.Constraint = (function() {
 
 	const 	UPPERREGEX = 	/[A-Z]/g,
-		LOWERREGEX = 	/[a-z]/g,
-		NUMBERREGEX =	/\d/g,
-		SPECIALREGEX =	/[\!\@\#\$\%\^\&\*]/g,
-		URLREGEX =		/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-		EMAILREGEX =	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			LOWERREGEX = 	/[a-z]/g,
+			NUMBERREGEX =	/\d/g,
+			SPECIALREGEX =	/[\!\@\#\$\%\^\&\*]/g,
+			URLREGEX =		/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+			EMAILREGEX =	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	/**
 	 * Holds a single constraint, error message, and helpful properties
