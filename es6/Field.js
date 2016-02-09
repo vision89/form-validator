@@ -11,12 +11,12 @@ FV.Field = (function() {
 	 */
 	return class Field {
 
-		constructor() {
+		constructor(n, e, se, c) {
 
-			this.name;
-			this.element;
-			this.secondElement;
-			this.constraints = [];
+			this.name =				n || '';
+			this.element =			e || undefined;
+			this.secondElement =	se || undefined;
+			this.constraints = 		c || [];
 
 		}	
 

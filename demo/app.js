@@ -3,59 +3,41 @@
 
 	window.APP = 		Object.create(null);
 
-	//Validation fields
-	var validator = 		new FV.Validator();
-	var minConstraint = 	new FV.Constraint();
-	var maxConstraint =		new FV.Constraint();
-	var upperConstraint =	new FV.Constraint();
-	var lowerConstraint =	new FV.Constraint();
-	var specialConstraint =	new FV.Constraint();
-	var regexConstraint =	new FV.Constraint();
-	var passwordField = 	new FV.Field();
-	var regexField =		new FV.Field();
-
 	//Dom elements
-	var passwordEl = 	document.getElementById('password-input');
-	var regexEl =		document.getElementById('regex-input');
-	var submitButton = 	document.getElementById('submit-button');
+	var passwordEl = 		document.getElementById('password-input');
+	var regexEl =			document.getElementById('regex-input');
+	var repeatPasswordEl =	document.getElementById('repeat-password');
+	var submitButton = 		document.getElementById('submit-button');
 
-	passwordField.name = 	"Password1";
-	passwordField.element = passwordEl;
+	//Validation fields
+	var validator = 			new FV.Validator();
+	var passwordField = 		new FV.Field("Password1", passwordEl);
+	var regexField =			new FV.Field("RegexField", regexEl);
+	var repeatPasswordField =	new FV.Field("RepeatPassword", repeatPasswordEl, passwordEl);
 
-	regexField.name =		"RegexField";
-	regexField.element =	regexEl;
+	passwordField.constraints = [
+		new FV.Constraint(FV.Validator.MINLENGTH, 
+			"* Password must be at least 3 characters long.\n",
+			3),
+		new FV.Constraint(FV.Validator.MAXLENGTH,
+			"* Password must be no more than 8 characters long.\n",
+			8),
+		new FV.Constraint(FV.Validator.CONTAINSUPPER,
+			"* Password must contain at least one upper case letter.\n"),
+		new FV.Constraint(FV.Validator.CONTAINSLOWER,
+			"* Password must contain at least one lower case letter.\n"),
+		new FV.Constraint(FV.Validator.CONTAINSSPECIAL,
+			"* Password must contain at least one special character (!, @, #, $, %, ^, &, *).\n")
 
-	minConstraint.constraint = 			FV.Validator.MINLENGTH;
-	minConstraint.errorMessage = 		"* Password must be at least 3 characters long.\n";
-	minConstraint.minLength = 			3;
+	];
 
-	maxConstraint.constraint = 			FV.Validator.MAXLENGTH;
-	maxConstraint.errorMessage = 		"* Password must be no more than 8 characters long.\n";
-	maxConstraint.maxLength = 			8;
+	regexField.constraints = [new FV.Constraint(FV.Validator.REGEX,
+			"* Must contain the word 'Test'.\n", undefined, /Test/)];
 
-	upperConstraint.constraint =		FV.Validator.CONTAINSUPPER;
-	upperConstraint.errorMessage =		"* Password must contain at least one upper case letter.\n";
+	repeatPasswordField.constraints = [new FV.Constraint(FV.Validator.EQUALSFIELD,
+			"* Must match your password.\n")];
 
-	lowerConstraint.constraint =		FV.Validator.CONTAINSLOWER;
-	lowerConstraint.errorMessage =		"* Password must contain at least one lower case letter.\n";
-
-	specialConstraint.constraint =		FV.Validator.CONTAINSSPECIAL;
-	specialConstraint.errorMessage =	"* Password must contain at least one special character (!, @, #, $, %, ^, &, *).\n";
-
-	regexConstraint.constraint =		FV.Validator.REGEX;
-	regexConstraint.errorMessage =		"* Must contain the word 'Test'.\n";
-	regexConstraint.regex =				/Test/;
-
-	passwordField.constraints.push(minConstraint);
-	passwordField.constraints.push(maxConstraint);
-	passwordField.constraints.push(upperConstraint);
-	passwordField.constraints.push(lowerConstraint);
-	passwordField.constraints.push(specialConstraint);
-
-	regexField.constraints.push(regexConstraint);
-
-	validator.fields.push(passwordField);
-	validator.fields.push(regexField);
+	validator.fields = [passwordField, regexField, repeatPasswordField];
 
 	/**
 	 * Check the form
@@ -66,6 +48,7 @@
 		var errors = 			validator.checkForErrors();
 		var passwordErrors = 	"";
 		var regexErrors = 		"";
+		var repeatErrors =		"";
 
 		errors.forEach(function(error) {
 
@@ -74,19 +57,16 @@
 				case "Password1":
 
 					passwordErrors += error.error;
-
 					break;
 
 				case "RegexField":
 
-					if(regexErrors === '') {
-
-						regexErrors = "Please correct the following errors:\n";
-
-					}
-
 					regexErrors += error.error;
+					break;
 
+				case "RepeatPassword":
+
+					repeatErrors = error.error;
 					break;
 
 			}
@@ -105,7 +85,15 @@
 
 		}
 
+		if(repeatErrors !== '') {
+
+			repeatErrors = "Please correct the following errors:\n" + repeatErrors;
+
+		}
+
+		//These will only display one at a time
 		passwordEl.setCustomValidity(passwordErrors);
+		repeatPasswordEl.setCustomValidity(repeatErrors);
 		regexEl.setCustomValidity(regexErrors);
 
 	};
@@ -119,9 +107,5 @@
 		alert('Success!');
 
 	};
-
-	console.log('Window: ', window);
-
-	console.log('FV: ', FV);
 
 })(document);

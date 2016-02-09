@@ -6,15 +6,13 @@ var FV = FV || Object.create(null);
  */
 FV.Validator = (function() {
 
-	const 	MINLENGTH = 		0,
-			MAXLENGTH = 		1,
-			CONTAINSUPPER =		2,
-			CONTAINSLOWER =		3,
-			CONTAINSSPECIAL =	4,
-			REGEX =				5,
-			ISEMAIL =			6,
-			ISURL =				7,
-			EQUALSFIELD =		8;
+	const 	MINLENGTH = 		1,
+			MAXLENGTH = 		2,
+			CONTAINSUPPER =		3,
+			CONTAINSLOWER =		4,
+			CONTAINSSPECIAL =	5,
+			REGEX =				6,
+			EQUALSFIELD =		7;
 
 	/**
 	 *Validates your entire form
@@ -22,9 +20,9 @@ FV.Validator = (function() {
 	 */
 	return class Validator {
 
-		constructor() {
+		constructor(f) {
 
-			this.fields = [];
+			this.fields = f || [];
 
 		}
 
@@ -89,26 +87,6 @@ FV.Validator = (function() {
 		}
 
 		/**
-		 * Field is an email address
-		 * 
-		 */
-		static get ISEMAIL() {
-
-			return ISEMAIL;
-
-		}
-
-		/**
-		 * Field is an url
-		 * 
-		 */
-		static get ISURL() {
-
-			return ISURL;
-
-		}
-
-		/**
 		 * Field equals another field
 		 * 
 		 */
@@ -136,7 +114,7 @@ FV.Validator = (function() {
 
 						case MINLENGTH:
 
-							if(field.element.value.length < constraint.minLength) {
+							if(field.element.value.length < constraint.fieldLength) {
 
 								errorMessages.push({
 									name: field.name,
@@ -148,7 +126,7 @@ FV.Validator = (function() {
 							break;
 						case MAXLENGTH:
 
-							if(field.element.value.length > constraint.maxLength) {
+							if(field.element.value.length > constraint.fieldLength) {
 
 								errorMessages.push({
 									name: field.name,
@@ -206,32 +184,8 @@ FV.Validator = (function() {
 							}
 
 							break;
-						case ISEMAIL:
 
-							if(!field.element.value.match(FV.Constraint.EMAILREGEX)) {
-
-								errorMessages.push({
-									name: field.name,
-									error: constraint.errorMessage
-								});
-
-							}
-
-							break;
-						case ISURL:
-
-							if(!field.element.value.match(FV.Constraint.URLREGEX)) {
-
-								errorMessages.push({
-									name: field.name,
-									error: constraint.errorMessage
-								});
-
-							}
-
-							break;
-
-						case equals:
+						case EQUALSFIELD:
 
 							if(field.element.value !== field.secondElement.value) {
 

@@ -13,23 +13,19 @@ FV.Constraint = function () {
 
 	var UPPERREGEX = /[A-Z]/g,
 	    LOWERREGEX = /[a-z]/g,
-	    NUMBERREGEX = /\d/g,
-	    SPECIALREGEX = /[\!\@\#\$\%\^\&\*]/g,
-	    URLREGEX = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-	    EMAILREGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	    SPECIALREGEX = /[\!\@\#\$\%\^\&\*]/g;
 
 	/**
   * Holds a single constraint, error message, and helpful properties
   */
 	return function () {
-		function Constraint() {
+		function Constraint(c, e, l, regex) {
 			_classCallCheck(this, Constraint);
 
-			this.constraint;
-			this.errorMessage = '';
-			this.minLength = 0;
-			this.maxLength = 0;
-			this.regex;
+			this.constraint = c || undefined;
+			this.errorMessage = e || '';
+			this.fieldLength = l || 0;
+			this.regex = regex || undefined;
 		}
 
 		/**
@@ -78,34 +74,12 @@ FV.Constraint = function () {
 
 				return SPECIALREGEX;
 			}
-
-			/**
-    * Url regex
-    */
-
-		}, {
-			key: 'URLREGEX',
-			get: function get() {
-
-				return URLREGEX;
-			}
-
-			/**
-    * Email regex
-    */
-
-		}, {
-			key: 'EMAILREGEX',
-			get: function get() {
-
-				return EMAILREGEX;
-			}
 		}]);
 
 		return Constraint;
 	}();
 }();
-"use strict";
+'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -120,13 +94,13 @@ FV.Field = function () {
 	/**
   * Class to hold the element and the validations to be performed on the elemtns
   */
-	return function Field() {
+	return function Field(n, e, se, c) {
 		_classCallCheck(this, Field);
 
-		this.name;
-		this.element;
-		this.secondElement;
-		this.constraints = [];
+		this.name = n || '';
+		this.element = e || undefined;
+		this.secondElement = se || undefined;
+		this.constraints = c || [];
 	};
 }();
 "use strict";
@@ -143,25 +117,23 @@ var FV = FV || Object.create(null);
  */
 FV.Validator = function () {
 
-	var MINLENGTH = 0,
-	    MAXLENGTH = 1,
-	    CONTAINSUPPER = 2,
-	    CONTAINSLOWER = 3,
-	    CONTAINSSPECIAL = 4,
-	    REGEX = 5,
-	    ISEMAIL = 6,
-	    ISURL = 7,
-	    EQUALSFIELD = 8;
+	var MINLENGTH = 1,
+	    MAXLENGTH = 2,
+	    CONTAINSUPPER = 3,
+	    CONTAINSLOWER = 4,
+	    CONTAINSSPECIAL = 5,
+	    REGEX = 6,
+	    EQUALSFIELD = 7;
 
 	/**
   *Validates your entire form
   *
   */
 	return function () {
-		function Validator() {
+		function Validator(f) {
 			_classCallCheck(this, Validator);
 
-			this.fields = [];
+			this.fields = f || [];
 		}
 
 		/**
@@ -190,7 +162,7 @@ FV.Validator = function () {
 
 							case MINLENGTH:
 
-								if (field.element.value.length < constraint.minLength) {
+								if (field.element.value.length < constraint.fieldLength) {
 
 									errorMessages.push({
 										name: field.name,
@@ -201,7 +173,7 @@ FV.Validator = function () {
 								break;
 							case MAXLENGTH:
 
-								if (field.element.value.length > constraint.maxLength) {
+								if (field.element.value.length > constraint.fieldLength) {
 
 									errorMessages.push({
 										name: field.name,
@@ -254,30 +226,8 @@ FV.Validator = function () {
 								}
 
 								break;
-							case ISEMAIL:
 
-								if (!field.element.value.match(FV.Constraint.EMAILREGEX)) {
-
-									errorMessages.push({
-										name: field.name,
-										error: constraint.errorMessage
-									});
-								}
-
-								break;
-							case ISURL:
-
-								if (!field.element.value.match(FV.Constraint.URLREGEX)) {
-
-									errorMessages.push({
-										name: field.name,
-										error: constraint.errorMessage
-									});
-								}
-
-								break;
-
-							case equals:
+							case EQUALSFIELD:
 
 								if (field.element.value !== field.secondElement.value) {
 
@@ -358,30 +308,6 @@ FV.Validator = function () {
 			get: function get() {
 
 				return REGEX;
-			}
-
-			/**
-    * Field is an email address
-    * 
-    */
-
-		}, {
-			key: "ISEMAIL",
-			get: function get() {
-
-				return ISEMAIL;
-			}
-
-			/**
-    * Field is an url
-    * 
-    */
-
-		}, {
-			key: "ISURL",
-			get: function get() {
-
-				return ISURL;
 			}
 
 			/**

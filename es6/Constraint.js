@@ -7,23 +7,19 @@ FV.Constraint = (function() {
 
 	const 	UPPERREGEX = 	/[A-Z]/g,
 			LOWERREGEX = 	/[a-z]/g,
-			NUMBERREGEX =	/\d/g,
-			SPECIALREGEX =	/[\!\@\#\$\%\^\&\*]/g,
-			URLREGEX =		/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-			EMAILREGEX =	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			SPECIALREGEX =	/[\!\@\#\$\%\^\&\*]/g;
 
 	/**
 	 * Holds a single constraint, error message, and helpful properties
 	 */
 	return class Constraint {
 
-		constructor() {
+		constructor(c, e, l, regex) {
 
-			this.constraint;
-			this.errorMessage =		'';
-			this.minLength = 		0;
-			this.maxLength = 		0;
-			this.regex;
+			this.constraint =		c || undefined;
+			this.errorMessage =		e || '';
+			this.fieldLength = 		l || 0;
+			this.regex =			regex || undefined;
 
 		}
 
@@ -63,24 +59,6 @@ FV.Constraint = (function() {
 		static get SPECIALREGEX() {
 
 			return SPECIALREGEX;
-
-		}
-
-		/**
-		 * Url regex
-		 */
-		static get URLREGEX() {
-
-			return URLREGEX;
-
-		}
-
-		/**
-		 * Email regex
-		 */
-		static get EMAILREGEX() {
-
-			return EMAILREGEX;
 
 		}
 
