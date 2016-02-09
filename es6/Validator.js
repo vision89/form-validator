@@ -6,18 +6,15 @@ var FV = FV || Object.create(null);
  */
 FV.Validator = (function() {
 
-	let d = new Date();
-
-	const 	REQUIRED = 			d.toISOString(),
-			MINLENGTH = 		d.toISOString(),
-			MAXLENGTH = 		d.toISOString(),
-			CONTAINSUPPER =		d.toISOString(),
-			CONTAINSLOWER =		d.toISOString(),
-			CONTAINSSPECIAL =	d.toISOString(),
-			REGEX =				d.toISOString(),
-			ISEMAIL =			d.toISOString(),
-			ISURL =				d.toISOString(),
-			EQUALSFIELD =		d.toISOString();
+	const 	MINLENGTH = 		0,
+			MAXLENGTH = 		1,
+			CONTAINSUPPER =		2,
+			CONTAINSLOWER =		3,
+			CONTAINSSPECIAL =	4,
+			REGEX =				5,
+			ISEMAIL =			6,
+			ISURL =				7,
+			EQUALSFIELD =		8;
 
 	/**
 	 *Validates your entire form
@@ -28,16 +25,6 @@ FV.Validator = (function() {
 		constructor() {
 
 			this.fields = [];
-
-		}
-
-		/**
-		 * Field is required
-		 * 
-		 */
-		static get REQUIRED() {
-
-			return REQUIRED;
 
 		}
 
@@ -147,25 +134,9 @@ FV.Validator = (function() {
 
 					switch(constraint.constraint) {
 
-						case REQUIRED:
-
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								field.element.value === '') {
-
-								errorMessages.push({
-									name: field.name,
-									error: constraint.errorMessage
-								});
-
-							}
-
-							break;
 						case MINLENGTH:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								field.element.value < constraint.minLength) {
+							if(field.element.value.length < constraint.minLength) {
 
 								errorMessages.push({
 									name: field.name,
@@ -177,9 +148,7 @@ FV.Validator = (function() {
 							break;
 						case MAXLENGTH:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								field.element.value > constraint.maxLength) {
+							if(field.element.value.length > constraint.maxLength) {
 
 								errorMessages.push({
 									name: field.name,
@@ -191,9 +160,7 @@ FV.Validator = (function() {
 							break;
 						case CONTAINSUPPER:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								!field.element.value.match(Constraint.UPPERREGEX)) {
+							if(!field.element.value.match(FV.Constraint.UPPERREGEX)) {
 
 								errorMessages.push({
 									name: field.name,
@@ -205,9 +172,7 @@ FV.Validator = (function() {
 							break;
 						case CONTAINSLOWER:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								!field.element.value.match(Constraint.LOWERREGEX)) {
+							if(!field.element.value.match(FV.Constraint.LOWERREGEX)) {
 
 								errorMessages.push({
 									name: field.name,
@@ -219,9 +184,7 @@ FV.Validator = (function() {
 							break;
 						case CONTAINSSPECIAL:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								!field.element.value.match(Constraint.SPECIALREGEX)) {
+							if(!field.element.value.match(FV.Constraint.SPECIALREGEX)) {
 
 								errorMessages.push({
 									name: field.name,
@@ -233,9 +196,7 @@ FV.Validator = (function() {
 							break;
 						case REGEX:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								!field.element.value.match(constraint.regex)) {
+							if(!field.element.value.match(constraint.regex)) {
 
 								errorMessages.push({
 									name: field.name,
@@ -247,9 +208,7 @@ FV.Validator = (function() {
 							break;
 						case ISEMAIL:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								!field.element.value.match(Constraint.EMAILREGEX)) {
+							if(!field.element.value.match(FV.Constraint.EMAILREGEX)) {
 
 								errorMessages.push({
 									name: field.name,
@@ -261,9 +220,7 @@ FV.Validator = (function() {
 							break;
 						case ISURL:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								!field.element.value.match(Constraint.URLREGEX)) {
+							if(!field.element.value.match(FV.Constraint.URLREGEX)) {
 
 								errorMessages.push({
 									name: field.name,
@@ -276,9 +233,7 @@ FV.Validator = (function() {
 
 						case equals:
 
-							if(field.element.value === undefined || 
-								field.element.value === null || 
-								field.element.value !== field.secondElement.value) {
+							if(field.element.value !== field.secondElement.value) {
 
 								errorMessages.push({
 									name: field.name,
