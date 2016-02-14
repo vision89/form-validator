@@ -118,7 +118,8 @@ FV.Validator = (function() {
 
 								errorMessages.push({
 									name: field.name,
-									error: constraint.errorMessage
+									error: constraint.errorMessage,
+									type: MINLENGTH
 								});
 
 							}
@@ -130,7 +131,8 @@ FV.Validator = (function() {
 
 								errorMessages.push({
 									name: field.name,
-									error: constraint.errorMessage
+									error: constraint.errorMessage,
+									type: MAXLENGTH
 								});
 
 							}
@@ -142,7 +144,8 @@ FV.Validator = (function() {
 
 								errorMessages.push({
 									name: field.name,
-									error: constraint.errorMessage
+									error: constraint.errorMessage,
+									type: CONTAINSUPPER
 								});
 
 							}
@@ -154,7 +157,8 @@ FV.Validator = (function() {
 
 								errorMessages.push({
 									name: field.name,
-									error: constraint.errorMessage
+									error: constraint.errorMessage,
+									type: CONTAINSLOWER
 								});
 
 							}
@@ -166,7 +170,8 @@ FV.Validator = (function() {
 
 								errorMessages.push({
 									name: field.name,
-									error: constraint.errorMessage
+									error: constraint.errorMessage,
+									type: CONTAINSSPECIAL
 								});
 
 							}
@@ -178,7 +183,8 @@ FV.Validator = (function() {
 
 								errorMessages.push({
 									name: field.name,
-									error: constraint.errorMessage
+									error: constraint.errorMessage,
+									type: REGEX
 								});
 
 							}
@@ -191,7 +197,8 @@ FV.Validator = (function() {
 
 								errorMessages.push({
 									name: field.name,
-									error: constraint.errorMessage
+									error: constraint.errorMessage,
+									type: EQUALSFIELD
 								});
 
 							}
