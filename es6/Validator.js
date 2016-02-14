@@ -12,7 +12,9 @@ FV.Validator = (function() {
 			CONTAINSLOWER =		4,
 			CONTAINSSPECIAL =	5,
 			REGEX =				6,
-			EQUALSFIELD =		7;
+			EQUALSFIELD =		7,
+			EMAIL =				8,
+			CONTAINSNUMBER =	9;
 
 	/**
 	 *Validates your entire form
@@ -93,6 +95,26 @@ FV.Validator = (function() {
 		static get EQUALSFIELD() {
 
 			return EQUALSFIELD;
+
+		}
+
+		/**
+		 * Field is a valid email address
+		 * 
+		 */
+		static get EMAIL() {
+
+			return EMAIL;
+
+		}
+
+		/**
+		 * Field contains a number
+		 * 
+		 */
+		static get CONTAINSNUMBER() {
+
+			return CONTAINSNUMBER;
 
 		}
 
@@ -202,6 +224,36 @@ FV.Validator = (function() {
 								});
 
 							}
+
+							break;
+
+						case EMAIL:
+						
+							if(!field.element.value.match(FV.Constraint.EMAILREGEX)) {
+
+								errorMessages.push({
+									name: field.name,
+									error: constraint.errorMessage,
+									type: EMAIL
+								});
+
+							}
+
+							break;
+
+						case CONTAINSNUMBER:
+						
+							if(!field.element.value.match(FV.Constraint.NUMBERREGEX)) {
+
+								errorMessages.push({
+									name: field.name,
+									error: constraint.errorMessage,
+									type: CONTAINSNUMBER
+								});
+
+							}
+
+							break;
 
 					}
 
